@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 /**
- * Created by Admin on 11-12-2015.
+ * Fragment displayed when the Food Tab is selected
  */
 public class FoodTabFrag extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // The array to be displayed
         String[] array =
                 {"McDonald's","Denny's","Chipotle","Panera Bread","Burger King","The Black Cow",
                 "The Cheesecake Factory","Bertucci's","Apple Bee's","TGI Friday's","Olive Garden",

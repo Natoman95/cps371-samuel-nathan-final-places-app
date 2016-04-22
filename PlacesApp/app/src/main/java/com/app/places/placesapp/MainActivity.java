@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /*
-        Assigning view variables to thier respective view in xml
+        Assigning view variables to their respective view in xml
         by findViewByID method
          */
 

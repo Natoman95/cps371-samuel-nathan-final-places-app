@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 /**
  * Credit to http://www.android4devs.com/2015/12/tab-layout-material-design-support.html for a great
  * tutorial that helped us get tabs to switch between fragments

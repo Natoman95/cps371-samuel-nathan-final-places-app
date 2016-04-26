@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 /**
- * Created by Admin on 11-12-2015.
+ * Fragment displayed when the Fun Tab is selected
  */
 public class FunTabFrag extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // The array to be displayed
         String[] array =
                 {"Cinemagic","Six Flags","Richardson's","Monster Golf","Canobie Lake Park","Skyzone",
                 "Lazer Quest","Singing Beach","Crane's Beach","Roller Palace","Jordan's Furniture Imax",

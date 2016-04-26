@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 /**
- * Created by Admin on 11-12-2015.
+ * Fragment to be displayed when the Stores Tab is selected
  */
 public class StoresTabFrag extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // The array to be displayed
         String[] array =
                 {"Staples","Target","BestBuy","Market Basket","Kohl's","Home Depot","PayLess",
                 "Manchester by the Book","Barnes & Noble","Dick's Sporting Goods","Newbury Comics",

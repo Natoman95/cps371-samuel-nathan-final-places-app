@@ -30,7 +30,7 @@ public class TabFragment extends ListFragment {
             Place currPlace = places.get(i);
 
             // new lines make more readable
-            String outString = "\n" + currPlace.getName() + "\n\n" + currPlace.getAddress() + "\n";
+            String outString = "\n" + currPlace.getName() + "\n\n" + "        " + currPlace.getAddress() + "\n";
             output.add(i, outString);
         }
         // Display the array

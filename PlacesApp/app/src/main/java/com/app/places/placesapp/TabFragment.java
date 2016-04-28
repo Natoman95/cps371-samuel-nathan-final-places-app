@@ -30,7 +30,8 @@ public class TabFragment extends ListFragment {
             Place currPlace = places.get(i);
 
             // new lines make more readable
-            String outString = "\n" + currPlace.getName() + "\n\n" + "        " + currPlace.getAddress() + "\n";
+            String outString = "\n" + currPlace.getName()
+                    + "\n\n        " + currPlace.getAddress()+ "\n";
             output.add(i, outString);
         }
         // Display the array
@@ -39,7 +40,8 @@ public class TabFragment extends ListFragment {
 
     private void setListView (ArrayList<String> toDisplay) {
         if (isAdded()) {
-            ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, toDisplay);
+            ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_list_item_1, toDisplay);
             setListAdapter(adapter);
         }
     }

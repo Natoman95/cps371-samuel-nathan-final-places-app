@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity
         tabLayout.addTab(fun, 1);
         tabLayout.addTab(stores, 2);
 
-        // TabTextColor sets the color for the title of the tabs, passing a ColorStateList here makes
-        // tab change colors in different situations such as selected, active, inactive etc
+        // TabTextColor sets the color for the title of the tabs, passing a ColorStateList here
+        // makes tab change colors in different situations such as selected, active, inactive etc
 
         // TabIndicatorColor sets the color for the indiactor below the tabs
         tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.tab_selector));
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity
         viewPager.setOffscreenPageLimit(2);
 
         // Adding a onPageChangeListener to the viewPager
-        // 1st we add the PageChangeListener and pass a TabLayoutPageChangeListener so that Tabs Selection
-        // changes when a viewpager page changes.
+        // 1st we add the PageChangeListener and pass a TabLayoutPageChangeListener so that Tabs
+        // Selection changes when a viewpager page changes.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         //Changes the fragment based on the selected tab
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Sends three web requests to get data for the three fragments
-    private void getPlacesData (float lat, float lon) {
+    private void getPlacesData(float lat, float lon) {
         makePlacesRequest(lat, lon, foodType);
         makePlacesRequest(lat, lon, funType);
         makePlacesRequest(lat, lon, storeType);

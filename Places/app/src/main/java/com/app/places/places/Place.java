@@ -1,5 +1,8 @@
 package com.app.places.places;
 
+/**
+ * Stores information about a place retrieved from Google's Places API
+ */
 public class Place {
 
     private String name;

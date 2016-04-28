@@ -3,7 +3,6 @@ package com.app.places.placesapp;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -38,103 +36,60 @@ public class MainActivity extends AppCompatActivity
         implements OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks,
         com.google.android.gms.location.LocationListener {
 
-    //Declaring All The Variables Needed
-
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter;
-
-    private GoogleApiClient mGoogleApiClient; // Connects to Google's API
-    private Location currentLocation; // Stores the most recent location data
-    private String TAG = "MainActivity"; // Used to identify error messages
-
-    // Lists of information about nearby places and the categories to request from Google Places
-    private ArrayList<Place> food;
-    private String foodType = "restaurant|bakery|bar|cafe|meal_delivery|meal_takeaway";
-    private ArrayList<Place> fun;
-    private String funType = "amusement_park|aquarium|art_gallery|beauty_salon|bowling_alley|" +
-            "campground|casino|movie_rental|movie_theater|museum|night_club|park|spa|stadium|" +
-            "zoo|gym";
-    private ArrayList<Place> shopping;
-    private String shopType = "bicycle_store|book_store|jewelry_store|liquor_store|pet_store|" +
-            "shoe_store|shopping_mall|store|clothing_store|convenience_store|department_store|" +
-            "electronics_store|florist|furniture_store|grocery_or_supermarket|hardware_store|" +
-            "home_goods_store";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-        Assigning view variables to their respective view in xml
-        by findViewByID method
-         */
-
+        // Assigning view variables to their respective view in xml
+        // by findViewByID method
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        /*
-        Creating Adapter and setting that adapter to the viewPager
-        setSupportActionBar method takes the toolbar and sets it as
-        the default action bar thus making the toolbar work like a normal
-        action bar.
-         */
+        // Creating Adapter and setting that adapter to the viewPager
+        // setSupportActionBar method takes the toolbar and sets it as
+        // the default action bar thus making the toolbar work like a normal
+        // action bar.
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         setSupportActionBar(toolbar);
 
-        /*
-        TabLayout.newTab() method creates a tab view, Now a Tab view is not the view
-        which is below the tabs, its the tab itself.
-         */
 
+        //TabLayout.newTab() method creates a tab view, Now a Tab view is not the view
+        //which is below the tabs, its the tab itself.
         final TabLayout.Tab food = tabLayout.newTab();
         final TabLayout.Tab fun = tabLayout.newTab();
         final TabLayout.Tab stores = tabLayout.newTab();
 
-        /*
-        Setting Title text for our tabs respectively
-         */
-
+        //Setting Title text for our tabs respectively
         food.setText("Food");
         fun.setText("Fun");
         stores.setText("Stores");
 
-        /*
-        Adding the tab view to our tablayout at appropriate positions
-        As I want home at first position I am passing home and 0 as argument to
-        the tablayout and like wise for other tabs as well
-         */
+        // Adding the tab view to our tablayout at appropriate positions
+        // As I want home at first position I am passing home and 0 as argument to
+        // the tablayout and like wise for other tabs as well
         tabLayout.addTab(food, 0);
         tabLayout.addTab(fun, 1);
         tabLayout.addTab(stores, 2);
 
-        /*
-        TabTextColor sets the color for the title of the tabs, passing a ColorStateList here makes
-        tab change colors in different situations such as selected, active, inactive etc
+        // TabTextColor sets the color for the title of the tabs, passing a ColorStateList here makes
+        // tab change colors in different situations such as selected, active, inactive etc
 
-        TabIndicatorColor sets the color for the indiactor below the tabs
-         */
-
+        // TabIndicatorColor sets the color for the indiactor below the tabs
         tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.tab_selector));
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.indicator));
 
-        /*
-        Adding a onPageChangeListener to the viewPager
-        1st we add the PageChangeListener and pass a TabLayoutPageChangeListener so that Tabs Selection
-        changes when a viewpager page changes.
-         */
+        // Keep all three tab fragments from being destroyed
+        viewPager.setOffscreenPageLimit(2);
 
+        // Adding a onPageChangeListener to the viewPager
+        // 1st we add the PageChangeListener and pass a TabLayoutPageChangeListener so that Tabs Selection
+        // changes when a viewpager page changes.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        /*
-        Changes the fragment based on the selected tab
-         */
-
+        //Changes the fragment based on the selected tab
         tabLayout.setOnTabSelectedListener(new
            TabLayout.OnTabSelectedListener() {
                @Override
@@ -153,6 +108,11 @@ public class MainActivity extends AppCompatActivity
                }
            });
 
+        // Initialize the tab fragments
+        viewPagerAdapter.getItem(0);
+        viewPagerAdapter.getItem(1);
+        viewPagerAdapter.getItem(2);
+
         // Initialize the API client
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -162,25 +122,6 @@ public class MainActivity extends AppCompatActivity
                     .build();
         }
     }
-
-//    private boolean resumeHasRun = false;
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (!resumeHasRun) {
-//            resumeHasRun = true;
-//            return;
-//        }
-//        // Normal case behavior follows
-//
-//        float currLat = (float) currentLocation.getLatitude();
-//        float currLon = (float) currentLocation.getLongitude();
-//
-//        makePlacesRequest(currLat, currLon, foodType);
-//        makePlacesRequest(currLat, currLon, funType);
-//        makePlacesRequest(currLat, currLon, shopType);
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,15 +172,14 @@ public class MainActivity extends AppCompatActivity
         float currLat = (float) currentLocation.getLatitude();
         float currLon = (float) currentLocation.getLongitude();
 
-        makePlacesRequest(currLat, currLon, foodType);
-        makePlacesRequest(currLat, currLon, funType);
-        makePlacesRequest(currLat, currLon, shopType);
+        // Get places data
+        getPlacesData(currLat, currLon);
 
         // Create a location request for the automatically updating data
         LocationRequest request = LocationRequest.create();
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        request.setInterval(30000); // Poll every thirty seconds
-        request.setFastestInterval(30000);
+        request.setInterval(LOCATION_POLL_INTERVAL); // Poll every thirty seconds
+        request.setFastestInterval(LOCATION_POLL_INTERVAL);
 
         // Create a special instance of the location provider
         FusedLocationProviderApi fusedLocationProviderApi = LocationServices.FusedLocationApi;
@@ -272,20 +212,26 @@ public class MainActivity extends AppCompatActivity
 
             // Update places if the latitude and longitude are different enough from the current
             // location
-            if (distFrom(currLat, currLon, newLat, newLon) > 500) {
+            if (distFrom(currLat, currLon, newLat, newLon) > SIG_LOCATION_CHANGE) {
                 // Update the current location with the new data
                 currentLocation = location;
 
                 // Get places data
-                makePlacesRequest(newLat, newLon, foodType);
-                makePlacesRequest(newLat, newLon, funType);
-                makePlacesRequest(newLat, newLon, shopType);
+                getPlacesData(newLat, newLon);
             }
         }
     }
 
+    // Sends three web requests to get data for the three fragments
+    private void getPlacesData (float lat, float lon) {
+        makePlacesRequest(lat, lon, foodType);
+        makePlacesRequest(lat, lon, funType);
+        makePlacesRequest(lat, lon, storeType);
+    }
+
     // Calculates the distance between two sets of coordinates
-    // Credit to http://stackoverflow.com/questions/837872/calculate-distance-in-meters-when-you-
+    // Credit to:
+    // http://stackoverflow.com/questions/837872/calculate-distance-in-meters-when-you-
     // know-longitude-and-latitude-in-java
     public float distFrom(float lat1, float lng1, float lat2, float lng2) {
         double earthRadius = 6371000; //meters
@@ -308,7 +254,7 @@ public class MainActivity extends AppCompatActivity
 
         // URL components
         String placesKey = "AIzaSyCl-8E28wKWpmbIEstGpjWoPrMPsBvYGXk";               // API key
-        int radius = 5000;                                                          // Search Radius
+        int radius = SEARCH_RADIUS;                                                 // Search Radius
         String location = lat + "," + lon;                                          // Location
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"; // Base url
 
@@ -328,43 +274,28 @@ public class MainActivity extends AppCompatActivity
                         if (type == foodType) {
                             food = parseResponse(res);
 
-                            // Find the food fragment and send it the data
-                            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                            FoodTabFrag foodFrag;
-                            for (int i = 0; i < fragments.size(); i ++) {
-                                Class<? extends Fragment> classType = fragments.get(i).getClass();
-                                if (classType.isInstance(new FoodTabFrag())) {
-                                    foodFrag = (FoodTabFrag) fragments.get(i);
-                                    foodFrag.updateView(food);
-                                }
+                            // Get the food fragment from the adapter
+                            TabFragment foodFrag = viewPagerAdapter.getRegisteredFragment(0);
+                            if (foodFrag != null) {
+                                foodFrag.populateList(food);
                             }
                         }
                         else if (type == funType) {
                             fun = parseResponse(res);
 
-                            // Find the fun fragment and send it the data
-                            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                            FunTabFrag funFrag;
-                            for (int i = 0; i < fragments.size(); i ++) {
-                                Class<? extends Fragment> classType = fragments.get(i).getClass();
-                                if (classType.isInstance(new FunTabFrag())) {
-                                    funFrag = (FunTabFrag) fragments.get(i);
-                                    funFrag.updateView(fun);
-                                }
+                            // Get the fun fragment from the adapter
+                            TabFragment funFrag = viewPagerAdapter.getRegisteredFragment(1);
+                            if (funFrag != null) {
+                                funFrag.populateList(fun);
                             }
                         }
-                        else if (type == shopType) {
-                            shopping = parseResponse(res);
+                        else if (type == storeType) {
+                            stores = parseResponse(res);
 
-                            // Find the store fragment and send it the data
-                            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-                            StoresTabFrag storeFrag;
-                            for (int i = 0; i < fragments.size(); i ++) {
-                                Class<? extends Fragment> classType = fragments.get(i).getClass();
-                                if (classType.isInstance(new StoresTabFrag())) {
-                                    storeFrag = (StoresTabFrag) fragments.get(i);
-                                    storeFrag.updateView(shopping);
-                                }
+                            // Get the store fragment from the adapter
+                            TabFragment storeFrag = viewPagerAdapter.getRegisteredFragment(2);
+                            if (storeFrag != null) {
+                                storeFrag.populateList(stores);
                             }
                         }
                     }
@@ -407,4 +338,37 @@ public class MainActivity extends AppCompatActivity
         }
         return null;
     }
+
+    //Declaring All The Variables Needed
+
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter; // Manages tab fragments
+
+    private GoogleApiClient mGoogleApiClient; // Connects to Google's API
+    private Location currentLocation; // Stores the most recent location data
+    private String TAG = "MainActivity"; // Used to identify error messages
+
+    // Lists of information about nearby places and the categories to request from Google Places
+
+    private ArrayList<Place> food;
+    private String foodType = "restaurant|bakery|bar|cafe|meal_delivery|meal_takeaway";
+
+    private ArrayList<Place> fun;
+    private String funType = "amusement_park|aquarium|art_gallery|beauty_salon|bowling_alley|" +
+            "campground|casino|movie_rental|movie_theater|museum|night_club|park|spa|stadium|" +
+            "zoo|gym";
+
+    private ArrayList<Place> stores;
+    private String storeType = "bicycle_store|book_store|jewelry_store|liquor_store|pet_store|" +
+            "shoe_store|shopping_mall|store|clothing_store|convenience_store|department_store|" +
+            "electronics_store|florist|furniture_store|grocery_or_supermarket|hardware_store|" +
+            "home_goods_store";
+
+    //Constants
+
+    private static final int LOCATION_POLL_INTERVAL = 30000;
+    private static final int SIG_LOCATION_CHANGE = 500;
+    private static final int SEARCH_RADIUS = 5000;
 }

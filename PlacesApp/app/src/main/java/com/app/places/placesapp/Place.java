@@ -5,9 +5,11 @@ package com.app.places.placesapp;
  */
 public class Place {
 
-    private String name;
-    private double rating;
-    private String address;
+    String name;
+    double rating;
+    String address;
+
+  
 
     public void setName(String name) {
         this.name = name;

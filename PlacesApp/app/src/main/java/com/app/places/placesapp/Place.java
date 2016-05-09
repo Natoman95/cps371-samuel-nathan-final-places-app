@@ -5,41 +5,41 @@ package com.app.places.placesapp;
  */
 public class Place {
 
-    private String name;
-    private double rating;
-    private String address;
-    private String photoUrl;
+String name;
+double rating;
+String address;
+String photoUrl;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+public void setName(String name) {
+	this.name = name;
+}
 
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
+public void setRating(double rating) {
+	this.rating = rating;
+}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+public void setAddress(String address) {
+	this.address = address;
+}
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
+public void setPhotoUrl(String photoUrl) {
+	this.photoUrl = photoUrl;
+}
 
-    public String getName() {
-        return name;
-    }
+public String getName() {
+	return name;
+}
 
-    public double getRating() {
-        return rating;
-    }
+public double getRating() {
+	return rating;
+}
 
-    public String getAddress() {
-        return address;
-    }
+public String getAddress() {
+	return address;
+}
 
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
+public String getPhotoUrl() {
+	return photoUrl;
+}
 
 }

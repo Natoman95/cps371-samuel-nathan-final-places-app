@@ -313,9 +313,6 @@ public class MainActivity extends AppCompatActivity
     // Sends a request to Google Places API
     private void makePlacesRequest(float lat, float lon, final String type) {
 
-        // List of places to return
-        ArrayList<Place> places = new ArrayList<Place>();
-
         // URL components
         int radius = searchRadius;                                                 // Search Radius
         String location = lat + "," + lon;                                          // Location

@@ -8,6 +8,7 @@ public class Place {
     private String name;
     private double rating;
     private String address;
+    private String photoUrl;
 
     public void setName(String name) {
         this.name = name;
@@ -21,6 +22,10 @@ public class Place {
         this.address = address;
     }
 
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
     public String getName() {
         return name;
     }
@@ -31,6 +36,10 @@ public class Place {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
 }

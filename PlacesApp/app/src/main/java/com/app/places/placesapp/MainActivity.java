@@ -128,6 +128,22 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onSaveInstanceState (Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        // Save the search radius
+        savedInstanceState.putInt("searchRadius", searchRadius);
+    }
+
+    @Override
+    public void onRestoreInstanceState (Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Recall the search radius
+        searchRadius = savedInstanceState.getInt("searchRadius");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -301,10 +317,8 @@ public class MainActivity extends AppCompatActivity
         ArrayList<Place> places = new ArrayList<Place>();
 
         // URL components
-        String placesKey = "AIzaSyCl-8E28wKWpmbIEstGpjWoPrMPsBvYGXk";               // API key
         int radius = searchRadius;                                                 // Search Radius
         String location = lat + "," + lon;                                          // Location
-        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"; // Base url
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -314,7 +328,7 @@ public class MainActivity extends AppCompatActivity
         params.put("radius", radius);
         params.put("type", type);
         params.put("key", placesKey);
-        client.get(url, params, new TextHttpResponseHandler() {
+        client.get(placesBaseUrl, params, new TextHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String res) {
                         // called when response HTTP status is "200 OK"
@@ -366,7 +380,7 @@ public class MainActivity extends AppCompatActivity
 
             // Populate array of Places from places in response
             for (int i = 0; i < results.length(); i ++) {
-                JSONObject placeObj = (JSONObject) results.get(i);
+                JSONObject placeObj = results.getJSONObject(i);
                 Place place = new Place();
                 if (placeObj.has("name")) {
                     place.setName(placeObj.getString("name"));
@@ -377,6 +391,14 @@ public class MainActivity extends AppCompatActivity
                 if (placeObj.has("vicinity")) {
                     place.setAddress(placeObj.getString("vicinity"));
                 }
+                if (placeObj.has("photos")) {
+                    JSONArray photoArray = placeObj.getJSONArray("photos");
+                    JSONObject photoObj = photoArray.getJSONObject(0);
+                    String photoRef = photoObj.getString("photo_reference");
+                    String photoUrl = createPhotoUrl(photoRef);
+
+                    place.setPhotoUrl(photoUrl);
+                }
                 places.add(place);
             }
 
@@ -385,6 +407,19 @@ public class MainActivity extends AppCompatActivity
             Log.d("parseResponse()", "Unable to parse response");
         }
         return null;
+    }
+
+    // Generate a url that can access a photo for a given place
+    private String createPhotoUrl(String photoRef) {
+
+        // Dimensions of the image
+        int maxHeight = 200;
+        int maxWidth = 200;
+
+        String url = photoBaseUrl + photoRef + "&sensor=false&maxheight=" + maxHeight + "&maxwidth=" +
+                maxWidth + "&key=" + placesKey;
+
+        return url;
     }
 
     //Declaring All The Variables Needed
@@ -397,6 +432,9 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient; // Connects to Google's API
     private Location currentLocation; // Stores the most recent location data
     private String TAG = "MainActivity"; // Used to identify error messages
+    private String placesKey = "AIzaSyCl-8E28wKWpmbIEstGpjWoPrMPsBvYGXk";
+    private String placesBaseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
+    private String photoBaseUrl = "https://maps.googleapis.com/maps/api/place/photo?photoreference=";
 
     // Lists of information about nearby places and the categories to request from Google Places
 

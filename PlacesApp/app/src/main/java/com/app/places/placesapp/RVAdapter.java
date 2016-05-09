@@ -20,7 +20,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
         CardView cv;
         TextView cardName;
         TextView cardAddress;
-        ImageView cardPhoto;
+//        ImageView cardPhoto;
 
         // Tie them to the card xml object
         CardViewHolder(View itemView) {
@@ -28,7 +28,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
             cv = (CardView)itemView.findViewById(R.id.card_view);
             cardName = (TextView)itemView.findViewById(R.id.card_name);
             cardAddress = (TextView)itemView.findViewById(R.id.card_address);
-            cardPhoto = (ImageView)itemView.findViewById(R.id.card_photo);
+//            cardPhoto = (ImageView)itemView.findViewById(R.id.card_photo);
         }
     }
 
@@ -45,16 +45,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardlocation, viewGroup, false);
         CardViewHolder pvh = new CardViewHolder(v);
         return pvh;
     }
 
     @Override
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
-        cardViewHolder.cardName.setText(cards.get(i).Name);
-        cardViewHolder.cardAddress.setText(cards.get(i).Address);
-        cardViewHolder.cardPhoto.setImageResource(cards.get(i).Photo);
+        cardViewHolder.cardName.setText(cards.get(i).name);
+        cardViewHolder.cardAddress.setText(cards.get(i).address);
+//        cardViewHolder.cardPhoto.setImageResource(cards.get(i).Photo);
     }
 
 

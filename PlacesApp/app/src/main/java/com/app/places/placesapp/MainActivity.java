@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 /**
+ *
+ *
  * Credit to http://www.android4devs.com/2015/12/tab-layout-material-design-support.html for a great
  * tutorial that helped us get tabs to switch between fragments
  */
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         // setSupportActionBar method takes the toolbar and sets it as
         // the default action bar thus making the toolbar work like a normal
         // action bar.
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),3);
         viewPager.setAdapter(viewPagerAdapter);
         setSupportActionBar(toolbar);
 
@@ -323,27 +325,27 @@ public class MainActivity extends AppCompatActivity
                             food = parseResponse(res);
 
                             // Get the food fragment from the adapter
-                            TabFragment foodFrag = viewPagerAdapter.getRegisteredFragment(0);
+                            CardFragment foodFrag = viewPagerAdapter.getRegisteredFragment(0);
                             if (foodFrag != null) {
-                                foodFrag.populateList(food);
+                                foodFrag.setArray(food);
                             }
                         }
                         else if (type == funType) {
                             fun = parseResponse(res);
 
                             // Get the fun fragment from the adapter
-                            TabFragment funFrag = viewPagerAdapter.getRegisteredFragment(1);
+                            CardFragment funFrag = viewPagerAdapter.getRegisteredFragment(1);
                             if (funFrag != null) {
-                                funFrag.populateList(fun);
+                                funFrag.setArray(fun);
                             }
                         }
                         else if (type == storeType) {
                             stores = parseResponse(res);
 
                             // Get the store fragment from the adapter
-                            TabFragment storeFrag = viewPagerAdapter.getRegisteredFragment(2);
+                            CardFragment storeFrag = viewPagerAdapter.getRegisteredFragment(2);
                             if (storeFrag != null) {
-                                storeFrag.populateList(stores);
+                                storeFrag.setArray(stores);
                             }
                         }
                     }

@@ -9,6 +9,7 @@ public class Place {
     double rating;
     String address;
 
+
   
 
     public void setName(String name) {

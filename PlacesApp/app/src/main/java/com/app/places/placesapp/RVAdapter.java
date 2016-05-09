@@ -73,29 +73,29 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
         cardViewHolder.cardRating.setText(String.valueOf(cards.get(i).getRating()));
 
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        URL url = null;
-        Bitmap logoBmp = null;
-        try {
-            url = new URL(cards.get(i).photoUrl);
-            logoBmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        if (logoBmp == null)
-        {
-            ;
-        }
-        else
-        {
-            cardViewHolder.cardPhoto.setImageBitmap(logoBmp);
-        }
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//
+//        URL url;
+//        Bitmap logoBmp = null;
+//        try {
+//            url = new URL(cards.get(i).photoUrl);
+//            logoBmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        if (logoBmp == null)
+//        {
+//            ;
+//        }
+//        else
+//        {
+//            cardViewHolder.cardPhoto.setImageBitmap(logoBmp);
+//        }
 
 
     }

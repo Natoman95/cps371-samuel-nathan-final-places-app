@@ -43,5 +43,12 @@ public class CardFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+    }
 }
 

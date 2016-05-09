@@ -70,7 +70,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CardViewHolder> {
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
         cardViewHolder.cardName.setText(cards.get(i).name);
         cardViewHolder.cardAddress.setText(cards.get(i).address);
-        cardViewHolder.cardAddress.setText(toString(cards.get(i).rating));
+        cardViewHolder.cardRating.setText(String.valueOf(cards.get(i).getRating()));
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

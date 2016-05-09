@@ -1,6 +1,7 @@
 package com.app.places.placesapp;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity
                     .addApi(LocationServices.API)
                     .build();
         }
+
     }
 
     @Override

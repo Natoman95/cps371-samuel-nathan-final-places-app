@@ -35,8 +35,6 @@ public class TabFragment extends ListFragment {
             output.add(i, outString);
         }
 
-
-
         // Display the array
         setListView(output);
     }

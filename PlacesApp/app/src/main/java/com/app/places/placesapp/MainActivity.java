@@ -316,7 +316,6 @@ public class MainActivity extends AppCompatActivity
     private void makePlacesRequest(float lat, float lon, final String type) {
 
         // URL components
-        int radius = searchRadius;                                                 // Search Radius
         String location = lat + "," + lon;                                          // Location
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -324,7 +323,7 @@ public class MainActivity extends AppCompatActivity
 
         // Add parameters to request
         params.put("location", location);
-        params.put("radius", radius);
+        params.put("radius", searchRadius);
         params.put("type", type);
         params.put("key", placesKey);
         client.get(placesBaseUrl, params, new TextHttpResponseHandler() {

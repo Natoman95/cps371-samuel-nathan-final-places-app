@@ -23,13 +23,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.mNumOfTabs = NumOfTabs;
     }
 
-
-
-//    // Contains all the currently instantiated fragments
+    // Contains all the currently instantiated fragments
     private SparseArray<CardFragment> registeredFragments = new SparseArray<CardFragment>();
-
-
-
 
     @Override
     public Fragment getItem(int position) {

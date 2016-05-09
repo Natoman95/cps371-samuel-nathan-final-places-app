@@ -34,6 +34,7 @@ public class TabFragment extends ListFragment {
                     + "\n\n        " + currPlace.getAddress()+ "\n";
             output.add(i, outString);
         }
+
         // Display the array
         setListView(output);
     }

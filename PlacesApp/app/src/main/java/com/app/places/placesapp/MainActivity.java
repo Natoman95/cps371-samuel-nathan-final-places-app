@@ -1,5 +1,6 @@
 package com.app.places.placesapp;
 
+import android.app.Dialog;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -54,7 +59,6 @@ public class MainActivity extends AppCompatActivity
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         setSupportActionBar(toolbar);
-
 
         //TabLayout.newTab() method creates a tab view, Now a Tab view is not the view
         //which is below the tabs, its the tab itself.
@@ -139,8 +143,50 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        // noinspection SimplifiableIfStatement
+        if (id == R.id.action_change_radius) {
+
+            // Custom dialog
+            final Dialog dialog = new Dialog(this, R.style.StyledDialog);
+            dialog.setContentView(R.layout.popup);
+            dialog.setTitle("Change Radius");
+
+            // Display the current search radius on the dialog
+            TextView current = (TextView) dialog.findViewById(R.id.current);
+            current.setText("Search Radius: " + searchRadius + " Meters");
+
+            // Get the button on the dialog
+            final Button enter = (Button) dialog.findViewById(R.id.enter);
+            final int[] input = new int[1];
+
+            // Get the text entered in the text field on the dialog and update the search radius
+            // and get new data to display
+            enter.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    // Get user input
+                    EditText field   = (EditText) dialog.findViewById(R.id.editText);
+                    input[0] = Integer.parseInt(field.getText().toString());
+                    searchRadius = input[0];
+
+                    // Get new data
+                    if (currentLocation != null) {
+                        // Get places data
+                        float currLat = (float) currentLocation.getLatitude();
+                        float currLon = (float) currentLocation.getLongitude();
+
+                        // Get places data
+                        getPlacesData(currLat, currLon);
+                    }
+
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
             return true;
         }
 
@@ -168,12 +214,14 @@ public class MainActivity extends AppCompatActivity
         // As soon as the Client connects, get the last location
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        // Get places data
-        float currLat = (float) currentLocation.getLatitude();
-        float currLon = (float) currentLocation.getLongitude();
+        if (currentLocation != null) {
+            // Get places data
+            float currLat = (float) currentLocation.getLatitude();
+            float currLon = (float) currentLocation.getLongitude();
 
-        // Get places data
-        getPlacesData(currLat, currLon);
+            // Get places data
+            getPlacesData(currLat, currLon);
+        }
 
         // Create a location request for the automatically updating data
         LocationRequest request = LocationRequest.create();
@@ -254,7 +302,7 @@ public class MainActivity extends AppCompatActivity
 
         // URL components
         String placesKey = "AIzaSyCl-8E28wKWpmbIEstGpjWoPrMPsBvYGXk";               // API key
-        int radius = SEARCH_RADIUS;                                                 // Search Radius
+        int radius = searchRadius;                                                 // Search Radius
         String location = lat + "," + lon;                                          // Location
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"; // Base url
 
@@ -366,9 +414,12 @@ public class MainActivity extends AppCompatActivity
             "electronics_store|florist|furniture_store|grocery_or_supermarket|hardware_store|" +
             "home_goods_store";
 
+    // Initial search radius in meters
+
+    private static int searchRadius = 5000;
+
     //Constants
 
     private static final int LOCATION_POLL_INTERVAL = 30000;
     private static final int SIG_LOCATION_CHANGE = 500;
-    private static final int SEARCH_RADIUS = 5000;
 }

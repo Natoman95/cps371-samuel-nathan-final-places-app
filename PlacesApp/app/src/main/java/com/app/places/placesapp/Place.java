@@ -32,4 +32,5 @@ public class Place {
     public String getAddress() {
         return address;
     }
+
 }

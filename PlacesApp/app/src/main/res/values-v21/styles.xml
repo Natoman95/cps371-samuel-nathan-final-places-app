@@ -6,4 +6,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="StyledDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/PrimaryColor</item>
+        <item name="colorAccent">@color/PrimaryColor</item>
+    </style>
+
 </resources>
